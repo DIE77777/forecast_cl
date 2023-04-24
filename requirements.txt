@@ -4,5 +4,5 @@ pmdarima==2.0.2
 statsmodels==0.13.5
 numpy==1.23.5
 streamlit==1.16.0
-pystan==2.19.1.
+pystan==2.19.1
 openpyxl
