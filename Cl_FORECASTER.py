@@ -125,13 +125,7 @@ if uploaded_file is not None and run == True:
 
     # replace a blank space in the names of columns with an underscore character in the columns COD PRODUCTO AND COD CLIENTE
 
-    df.rename(columns={'COD. PRODUCTO': 'COD_PRODUCTO', 'COD CLIENTE': 'COD_CLIENTE'}, inplace=True)
-       
-
-     # create a key with the produuct,cliente an segmento columns
-
-    df['producto'] = df['COD_CLIENTE'].astype(str) + df['COD_PRODUCTO'].astype(str) 
-
+    df.rename(columns={'COD. PRODUCTO': 'COD_PRODUCTO', 'COD CLIENTE': 'COD_CLIENTE'}, inplace=True)      
     # eliminate the negative values in the venta column
 
     df['VENTA NETA (TON)'] = df['VENTA NETA (TON)'].apply(lambda x: 0 if x < 0 else x)
@@ -141,6 +135,10 @@ if uploaded_file is not None and run == True:
     # agrupate the data by prducto,Canal_Agrupado,COD_PRODUCTO, AÑO and MES columns
 
     df = df.groupby(['COD_CLIENTE','COD_PRODUCTO', 'ds'])['VENTA NETA (TON)'].sum().reset_index()
+
+      # create a key with the produuct,cliente an segmento columns
+
+    df['producto'] = df['COD_CLIENTE'].astype(str) + df['COD_PRODUCTO'].astype(str) 
 
     df_export = df.copy()
 
