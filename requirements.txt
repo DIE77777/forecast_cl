@@ -1,8 +1,8 @@
 numpy==1.21.6
 pandas==1.4.4
 pystan
-streamlit==1.16.0
-fbprophet==0.7.1
+streamlit
+fbprophet
 statsmodels==0.13.5
 pmdarima
 openpyxl
