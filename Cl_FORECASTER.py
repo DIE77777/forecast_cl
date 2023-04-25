@@ -3,7 +3,7 @@
 
 # Import the necessary libraries
 import pandas as pd
-from fbprophet import Prophet
+#from fbprophet import Prophet
 from pmdarima import auto_arima
 from sklearn.metrics import mean_absolute_error
 import statsmodels.api as sm
@@ -198,8 +198,8 @@ if uploaded_file is not None and run == True:
       test = group.iloc[int(0.8*len(group)):]
 
       # Fit the FB Prophet model to the training data
-      m1 = Prophet()
-      m1.fit(train)  
+      #m1 = Prophet()
+      #m1.fit(train)  
 
       # Fit the pmdarima model to the training data
       m2 = auto_arima(train['y'], error_action='ignore', suppress_warnings=True)
@@ -219,7 +219,7 @@ if uploaded_file is not None and run == True:
               
       # Make forecasts on the test data using both models
       
-      forecast1 = m1.predict(test)
+      #forecast1 = m1.predict(test)
       forecast2 = m2.predict(n_periods=len(test))
       forecast3 = m3.predict(start=test.index[0], end=test.index[-1])
       forecast4 = m4.predict(start=test.index[0], end=test.index[-1])
@@ -228,14 +228,15 @@ if uploaded_file is not None and run == True:
 
       # Evaluate the accuracy of the forecasts using mean absolute error (MAE)
       
-      mae1 = mean_absolute_error(test['y'], forecast1['yhat'])
+      #mae1 = mean_absolute_error(test['y'], forecast1['yhat'])
+      mae1 =mean_absolute_error(test['y'], forecast2)
       mae2 = mean_absolute_error(test['y'], forecast2)
       mae3 = mean_absolute_error(test['y'], forecast3)
       mae4 = mean_absolute_error(test['y'], forecast4)
       mae5 = mean_absolute_error(test['y'], forecast5)
 
       # Print the MAE for both models
-      print(f'MAE for FB Prophet ({name}): {mae1}')
+      #print(f'MAE for FB Prophet ({name}): {mae1}')
       print(f'MAE for pmdarima ({name}): {mae2}')
       print(f'MAE for mean average ({name}): {mae3}')
       print(f'MAE for naive ({name}): {mae4}')
@@ -247,29 +248,29 @@ if uploaded_file is not None and run == True:
         print(f'FB Prophet is better for {name}')
 
         # apply the prophet model to the entire dataset
-        m1 = Prophet()
-        m1.fit(group)
+       # m1 = Prophet()
+       # m1.fit(group)
 
         # Make a forecast for the next 12 months
-        future = m1.make_future_dataframe(periods=12, freq='M')
-        forecast = m1.predict(future)
+        #future = m1.make_future_dataframe(periods=12, freq='M')
+        #forecast = m1.predict(future)
 
         # take only the last 12 months of the forecast
 
-        forecast = forecast.iloc[-12:]
+        #forecast = forecast.iloc[-12:]
 
         # Add the forecast to the forecast_df dataframe
-        forecast['producto'] = name
-        forecast['pronostico'] = forecast['yhat']    
+        #forecast['producto'] = name
+        #forecast['pronostico'] = forecast['yhat']    
 
         
         # aggregate the name of the model to the forecast dataframe
-        forecast['modelo'] = 'FB Prophet'
+        #forecast['modelo'] = 'FB Prophet'
 
         # select the columns we want to keep
-        forecast = forecast[['producto', 'pronostico','modelo']]
+        #forecast = forecast[['producto', 'pronostico','modelo']]
         
-        forecast_df = forecast_df.append(forecast)
+        #forecast_df = forecast_df.append(forecast)
 
       elif mae3 < mae2:
 
